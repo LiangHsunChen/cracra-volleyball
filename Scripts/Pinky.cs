@@ -120,7 +120,7 @@ public class Pinky : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            smashWithDirection(Vector2.down + new Vector2(-0.25f ,0f));
+            smashWithDirection(Vector2.down + new Vector2(-0.3f ,0f));
         }
         else
         {
