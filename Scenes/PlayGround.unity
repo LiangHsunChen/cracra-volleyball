@@ -153,8 +153,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _setupManager: {fileID: 1055821200}
-  movementSpeed: 8
+  movementSpeed: 7
   jumpForce: 135
+  smashRange: 0.25
+  smashForce: 100
+  spinForce: 1800
   cameraLeftEdge: {x: 0, y: 0, z: 0}
   cameraRightEdge: {x: 0, y: 0, z: 0}
 --- !u!4 &239776781
@@ -399,6 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 597097807}
   net: {fileID: 1052148952}
+  ball: {fileID: 1303299432}
 --- !u!70 &597097812
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -804,7 +808,7 @@ Transform:
   m_GameObject: {fileID: 1303299432}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4.78409, y: 3.315455, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -951,7 +955,7 @@ EdgeCollider2D:
   m_GameObject: {fileID: 1657424395}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9517c80d81a2744a4ae5ddc3d07918f8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1361,7 +1365,7 @@ EdgeCollider2D:
   m_GameObject: {fileID: 2044314698}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9517c80d81a2744a4ae5ddc3d07918f8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1468,7 +1472,7 @@ EdgeCollider2D:
   m_GameObject: {fileID: 2090937517}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9517c80d81a2744a4ae5ddc3d07918f8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

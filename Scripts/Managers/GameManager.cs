@@ -7,8 +7,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public SetupManager _setupManager;
 
-    public float movementSpeed = 8f;
+    public float movementSpeed = 7f;
     public float jumpForce = 135f;
+    public float smashRange = 0.25f;
+    public float smashForce = 100f;
+    public float spinForce = 1800f;
 
     private Camera cam;
     public Vector3 cameraLeftEdge;

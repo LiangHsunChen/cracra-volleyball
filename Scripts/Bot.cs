@@ -61,10 +61,11 @@ public class Bot : MonoBehaviour
     private void FixedUpdate()
     {
         // Calculate ball drop point
-        if (NeedsRecalculate())
-        {
-            ballDropPoint = CalculateBallDropPoint();
-        }
+        //if (NeedsRecalculate())
+        //{
+        //    ballDropPoint = CalculateBallDropPoint();
+        //}
+        ballDropPoint = CalculateBallDropPoint();
 
         // Move to the ball drop point
         horizontalInput = MoveTowards(ballDropPoint);
