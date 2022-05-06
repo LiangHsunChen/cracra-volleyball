@@ -10,6 +10,7 @@ public class Pinky : MonoBehaviour
     public Animator animator;
     public GameObject net;
     public GameObject ball;
+    public GameObject ground;
 
     private float horizontalInput = 0f;
     private bool hasJumped = false;
@@ -25,6 +26,7 @@ public class Pinky : MonoBehaviour
     private CapsuleCollider2D _capsuleCollider2D;
     private Rigidbody2D ballRigidbody2D;
     private CircleCollider2D ballCircleCollider2D;
+    private EdgeCollider2D groundCollider2D;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,7 @@ public class Pinky : MonoBehaviour
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         ballRigidbody2D = ball.GetComponent<Rigidbody2D>();
         ballCircleCollider2D = ball.GetComponent<CircleCollider2D>();
+        groundCollider2D = ground.GetComponent<EdgeCollider2D>();
         netExtent = net.GetComponent<CapsuleCollider2D>().size.y / 2;
         playerExtent = _capsuleCollider2D.size.x / 2;
         netHorizontalRange = new(-netExtent - playerExtent, netExtent + playerExtent);
@@ -130,7 +133,6 @@ public class Pinky : MonoBehaviour
 
     private void smashWithDirection(Vector2 direciton)
     {
-        Debug.Log("Smashed " + direciton);
         ballRigidbody2D.velocity = Vector2.zero;
         ballRigidbody2D.angularVelocity = gm.spinForce;
         ballRigidbody2D.AddForce(direciton * gm.smashForce, ForceMode2D.Impulse);
@@ -173,7 +175,7 @@ public class Pinky : MonoBehaviour
     // Check if the object is on the ground
     private bool IsOnTheGround()
     {
-        return Mathf.Abs(_rigidbody2D.velocity.y) == 0;
+        return _capsuleCollider2D.IsTouching(groundCollider2D);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
