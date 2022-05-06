@@ -92,25 +92,39 @@ public class Smash : MonoBehaviour
             Vector2 direction = new(0, 0);
             //if (Mathf.Abs(botposX - netLeftPoint) > wallToNetDis * 2 / 3) // Bot closer to wall
             //{
-            //    switch (Random.Range(1, 2))
+            //    switch (Random.Range(1, 3))
             //    {
             //        case 1:
             //            direction = RU;
             //            break;
 
             //        case 2:
-            //            direction = Vector2.left;
+            //            direction = Vector2.right;
             //            break;
             //    }
-            //    Debug.Log(1);
-            //    smashWithDirection(direction);
             //}
-            if (Mathf.Abs(botposX - netLeftPoint) < gm.playerExtent + 1f) // Bot is very close to net
+            if (Mathf.Abs(botposX - netLeftPoint) < wallToNetDis * 1 / 3) // Bot closer to net
             {
-                Debug.Log(2);
-                smashWithDirection(RD);
+                switch (Random.Range(1, 4))
+                {
+                    case 1:
+                        direction = RU;
+                        break;
+
+                    case 2:
+                        direction = Vector2.right;
+                        break;
+
+                    case 3:
+                        direction = RD;
+                        break;
+                }
             }
-            else // Bot closer to net
+            else if (Mathf.Abs(botposX - netLeftPoint) < gm.playerExtent + 1f) // Bot is very close to net
+            {
+                direction = RDD;
+            }
+            else
             {
                 switch (Random.Range(1, 3))
                 {
@@ -122,9 +136,8 @@ public class Smash : MonoBehaviour
                         direction = Vector2.right;
                         break;
                 }
-                Debug.Log(1);
-                smashWithDirection(direction);
             }
+            smashWithDirection(direction);
         }
         else // Bot lower than net
         {
