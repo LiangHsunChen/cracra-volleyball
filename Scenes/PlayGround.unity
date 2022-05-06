@@ -403,6 +403,7 @@ MonoBehaviour:
   animator: {fileID: 597097807}
   net: {fileID: 1052148952}
   ball: {fileID: 1303299432}
+  ground: {fileID: 1879865277}
 --- !u!70 &597097812
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -416,8 +417,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0054662824, y: -0.002209854}
-  m_Size: {x: 0.18, y: 0.26634857}
+  m_Offset: {x: -0.0029255867, y: -0.02738483}
+  m_Size: {x: 0.1128664, y: 0.2159986}
   m_Direction: 0
 --- !u!1 &942756159
 GameObject:
@@ -619,8 +620,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052148952}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.39, z: 0}
-  m_LocalScale: {x: 0.523375, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0, y: 0.12, z: 0}
+  m_LocalScale: {x: 0.43, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1401214057}
