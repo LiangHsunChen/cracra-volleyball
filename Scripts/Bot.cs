@@ -32,8 +32,10 @@ public class Bot : MonoBehaviour
     private Vector2 ballPrevDropPoint;
     private Vector2 ballDropPoint;
 
+    private EdgeCollider2D groundCollider2D;
 
     private Rigidbody2D _rigidbody2D;
+    private CapsuleCollider2D _capsuleCollider2D;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +46,8 @@ public class Bot : MonoBehaviour
         netHorizontalRange = new(-netExtent - botExtent, netExtent + botExtent);
         ballRigidbody2D = ball.GetComponent<Rigidbody2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        groundCollider2D = ground.GetComponent<EdgeCollider2D>();
         desiredDropPointY = ground.transform.position.y + (ground.GetComponent<SpriteRenderer>().bounds.size.y / 2) +
             (ball.GetComponent<SpriteRenderer>().bounds.size.y / 2);
         ballDropPoint = new(0, 0);
@@ -70,7 +74,7 @@ public class Bot : MonoBehaviour
         // Move to the ball drop point
         horizontalInput = MoveTowards(ballDropPoint);
 
-        //if (hasJumped)
+        //if ()
         //{
         //    ConditionalJump();
         //}
@@ -159,7 +163,7 @@ public class Bot : MonoBehaviour
     // Jump if is on the ground
     private void ConditionalJump()
     {
-        if (Mathf.Abs(_rigidbody2D.velocity.y) == 0) // Can only jump when on the ground
+        if (_capsuleCollider2D.IsTouching(groundCollider2D)) // Can only jump when on the ground
         {
             _rigidbody2D.AddForce(new Vector2(0, gm.jumpForce), ForceMode2D.Impulse);
         }
@@ -172,6 +176,7 @@ public class Bot : MonoBehaviour
         if (collision.gameObject.CompareTag("Ball"))
         {
             _rigidbody2D.velocity = Vector2.zero;
+            ConditionalJump();
         }
     }
 }
