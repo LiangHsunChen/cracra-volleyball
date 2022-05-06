@@ -8,11 +8,6 @@ public class SetupManager : MonoBehaviour
 
     private GameManager gm;
 
-    public GameObject ball;
-    public GameObject player;
-    public GameObject leftWall;
-    public GameObject rightWall;
-
     private Vector3 playerPosition;
     private Vector3 ballStartPosition;
     private Vector3 leftWallPosition;
@@ -27,7 +22,7 @@ public class SetupManager : MonoBehaviour
     private void Start()
     {
         gm = GameManager.Instance;
-        ballRigidbody2D = ball.GetComponent<Rigidbody2D>();
+        ballRigidbody2D = gm.ball.GetComponent<Rigidbody2D>();
         ballStartPosition = ballRigidbody2D.position;
 
         Setup();
@@ -55,25 +50,25 @@ public class SetupManager : MonoBehaviour
     // Setup ball's position
     void BallSetup()
     {
-        ballExtent = ball.GetComponent<CircleCollider2D>().bounds.size.x / 2;
-        ball.transform.position = new Vector3(gm.cameraRightEdge.x - ballExtent, ballStartPosition.y, ballStartPosition.z);
+        ballExtent = gm.ball.GetComponent<CircleCollider2D>().bounds.size.x / 2;
+        gm.ball.transform.position = new Vector3(gm.cameraRightEdge.x - ballExtent, ballStartPosition.y, ballStartPosition.z);
     }
 
     // Setup player's position
     void PlayerSetup()
     {
-        playerPosition = player.transform.position;
-        player.transform.position = new Vector3(gm.cameraRightEdge.x - ballExtent, playerPosition.y, playerPosition.z);
+        playerPosition = gm.player.transform.position;
+        gm.player.transform.position = new Vector3(gm.cameraRightEdge.x - ballExtent, playerPosition.y, playerPosition.z);
     }
 
     // Setup walls' position
     void WallsSetup()
     {
-        leftWallPosition = leftWall.transform.position;
-        rightWallPosition = rightWall.transform.position;
-        leftWallWidth = leftWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
-        rightWallWidth = rightWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
-        leftWall.transform.position = new Vector3(gm.cameraLeftEdge.x - leftWallWidth, gm.cameraLeftEdge.y, leftWallPosition.z);
-        rightWall.transform.position = new Vector3(gm.cameraRightEdge.x + rightWallWidth, gm.cameraRightEdge.y, rightWallPosition.z);
+        leftWallPosition = gm.leftWall.transform.position;
+        rightWallPosition = gm.rightWall.transform.position;
+        leftWallWidth = gm.leftWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+        rightWallWidth = gm.rightWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+        gm.leftWall.transform.position = new Vector3(gm.cameraLeftEdge.x - leftWallWidth, gm.cameraLeftEdge.y, leftWallPosition.z);
+        gm.rightWall.transform.position = new Vector3(gm.cameraRightEdge.x + rightWallWidth, gm.cameraRightEdge.y, rightWallPosition.z);
     }
 }

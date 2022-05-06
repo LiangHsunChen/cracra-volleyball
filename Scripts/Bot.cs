@@ -11,48 +11,35 @@ public class Bot : MonoBehaviour
     private GameManager gm;
 
     public Animator animator;
-    public GameObject net;
-    public GameObject ball;
-    public GameObject ground;
 
     private float horizontalInput = 0f;
     private bool hasJumped = false;
     // Bot
     private Vector3 desiredPosition;
-    private float botExtent;
-    // Net
-    private Vector2 netHorizontalRange;
-    private float netExtent;
     // Ball
-    private Rigidbody2D ballRigidbody2D;
-    private float desiredDropPointY;
     private Vector2 ballCurrentPosition;
     private float calcInterval;
     private Vector2 gravityAccel;
     private Vector2 ballPrevDropPoint;
     private Vector2 ballDropPoint;
 
-    private EdgeCollider2D groundCollider2D;
-
     private Rigidbody2D _rigidbody2D;
     private CapsuleCollider2D _capsuleCollider2D;
+
+    private Smash smash;
+
+    private bool isFollowingBall = false;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameManager.Instance;
-        netExtent = net.GetComponent<CapsuleCollider2D>().size.y / 2;
-        botExtent = GetComponent<CapsuleCollider2D>().size.x / 2;
-        netHorizontalRange = new(-netExtent - botExtent, netExtent + botExtent);
-        ballRigidbody2D = ball.GetComponent<Rigidbody2D>();
+        smash = GetComponent<Smash>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
-        groundCollider2D = ground.GetComponent<EdgeCollider2D>();
-        desiredDropPointY = ground.transform.position.y + (ground.GetComponent<SpriteRenderer>().bounds.size.y / 2) +
-            (ball.GetComponent<SpriteRenderer>().bounds.size.y / 2);
         ballDropPoint = new(0, 0);
         calcInterval = 0.05f;
-        gravityAccel = calcInterval * calcInterval * Physics2D.gravity * ballRigidbody2D.gravityScale;
+        gravityAccel = calcInterval * calcInterval * Physics2D.gravity * gm.ballRigidbody2D.gravityScale;
     }
 
     // Update is called once per frame
@@ -69,35 +56,67 @@ public class Bot : MonoBehaviour
         //{
         //    ballDropPoint = CalculateBallDropPoint();
         //}
-        ballDropPoint = CalculateBallDropPoint();
+        
+        if (isFollowingBall)
+        {
+            horizontalInput = MoveTowards(gm.ballRigidbody2D.position);
+        }
+        else
+        {
+            // Move to the ball drop point
+            ballDropPoint = CalculateBallDropPoint();
+            horizontalInput = MoveTowards(ballDropPoint);
+        }
 
-        // Move to the ball drop point
-        horizontalInput = MoveTowards(ballDropPoint);
+        if (BallIsAbove())
+        {
+            ConditionalJump();
+            isFollowingBall = true;
+        }
 
-        //if ()
+        //if (BallIsNearBy())
         //{
         //    ConditionalJump();
         //}
+        
+    }
+
+    // Determine if the ball is above the character
+    private bool BallIsAbove()
+    {
+        float ballDropX = ballDropPoint.x;
+        float ballPosX = gm.ballRigidbody2D.position.x;
+        float charPosX = _rigidbody2D.position.x;
+        // If the character horizontal position is between the ball's drop point and the ball's current position.
+        bool isInRange = Mathf.Clamp(charPosX, Mathf.Min(ballDropX, ballPosX), Mathf.Max(ballDropX, ballPosX)) == charPosX;
+
+        //return Mathf.Abs(ballDropX - ballPosX) < 1f && isInRange
+        return Mathf.Abs(charPosX - ballPosX) < 0.5f;
+    }
+
+    private bool BallIsNearBy()
+    {
+        return _capsuleCollider2D.Distance(gm.ballCircleCollider2D).distance < 1f;
     }
 
     // Check if the ball's drop point needs recalculate
     private bool NeedsRecalculate()
     {
-        return ball.GetComponent<Ball>().hasCollided;
+        return gm.ball.GetComponent<Ball>().hasCollided;
     }
 
     // Calculate the result drop point of the ball when it goes under the character's head
     private Vector2 CalculateBallDropPoint()
     {
-        ball.GetComponent<Ball>().hasCollided = false;
+        gm.ball.GetComponent<Ball>().hasCollided = false;
 
-        Vector2 resultVelocity = ballRigidbody2D.velocity * calcInterval + gravityAccel;
-        Vector2 resultDropPoint = CalculateNextBallDropPoint(ballRigidbody2D.position, resultVelocity);
-        Vector2 prevDropPoint = ballRigidbody2D.position;
+        Vector2 resultVelocity = gm.ballRigidbody2D.velocity * calcInterval + gravityAccel;
+        Vector2 resultDropPoint = CalculateNextBallDropPoint(gm.ballRigidbody2D.position, resultVelocity);
+        Vector2 prevDropPoint = gm.ballRigidbody2D.position;
         // Calculate the drop point until it goes under the character's head
         for (int i = 0; i < 1000; i++)
         {
-            if (resultDropPoint.y <= desiredDropPointY)
+            if (resultDropPoint.y <= gm.desiredDropPointY)
             {
                 return prevDropPoint;
             }
@@ -157,17 +176,31 @@ public class Bot : MonoBehaviour
     // Check if the desired position is within the net range
     private bool IsInNetRange(Vector3 desiredPosition)
     {
-        return desiredPosition.x > netHorizontalRange.x && desiredPosition.x < netHorizontalRange.y;
+        return desiredPosition.x > gm.netHorizontalRange.x && desiredPosition.x < gm.netHorizontalRange.y;
     }
 
     // Jump if is on the ground
     private void ConditionalJump()
     {
-        if (_capsuleCollider2D.IsTouching(groundCollider2D)) // Can only jump when on the ground
+        if (IsOnTheGround()) // Can only jump while on the ground
         {
             _rigidbody2D.AddForce(new Vector2(0, gm.jumpForce), ForceMode2D.Impulse);
         }
-        hasJumped = false;
+    }
+
+    // Check if the object is on the ground
+    private bool IsOnTheGround()
+    {
+        return _capsuleCollider2D.Distance(gm.groundCollider2D).distance < -0.004f && _capsuleCollider2D.IsTouching(gm.groundCollider2D);
+    }
+
+
+    private bool canSmash()
+    {
+        float netHeight = gm.netPos.y + gm.netExtentY;
+        float botPosY = _rigidbody2D.position.y;
+
+        return botPosY > netHeight;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -176,7 +209,16 @@ public class Bot : MonoBehaviour
         if (collision.gameObject.CompareTag("Ball"))
         {
             _rigidbody2D.velocity = Vector2.zero;
-            ConditionalJump();
+
+            if (canSmash())
+            {
+                smash.SmashBall("Bot");
+            }
+        }
+
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isFollowingBall = false;
         }
     }
 }

@@ -8,25 +8,17 @@ public class Pinky : MonoBehaviour
     private GameManager gm;
 
     public Animator animator;
-    public GameObject net;
-    public GameObject ball;
-    public GameObject ground;
 
     private float horizontalInput = 0f;
     private bool hasJumped = false;
     private bool pressedSpace = false;
     // Player's position after movement
     private Vector3 desiredPosition;
-    private float playerExtent;
-    // Net's horizontal range from x to y
-    private Vector2 netHorizontalRange;
-    private float netExtent;
 
     private Rigidbody2D _rigidbody2D;
     private CapsuleCollider2D _capsuleCollider2D;
-    private Rigidbody2D ballRigidbody2D;
-    private CircleCollider2D ballCircleCollider2D;
-    private EdgeCollider2D groundCollider2D;
+
+    private Smash smash;
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +26,8 @@ public class Pinky : MonoBehaviour
         gm = GameManager.Instance;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
-        ballRigidbody2D = ball.GetComponent<Rigidbody2D>();
-        ballCircleCollider2D = ball.GetComponent<CircleCollider2D>();
-        groundCollider2D = ground.GetComponent<EdgeCollider2D>();
-        netExtent = net.GetComponent<CapsuleCollider2D>().size.y / 2;
-        playerExtent = _capsuleCollider2D.size.x / 2;
-        netHorizontalRange = new(-netExtent - playerExtent, netExtent + playerExtent);
+        
+        smash = GetComponent<Smash>();
     }
 
     // Update is called once per frame
@@ -84,66 +72,12 @@ public class Pinky : MonoBehaviour
         if (IsOnTheGround())
         {
             //Pounce();
-            SmashBall();
+            smash.SmashBall("Player");
         }
         else
         {
-            SmashBall();
+            smash.SmashBall("Player");
         }
-    }
-
-    private void SmashBall()
-    {
-        // Do nothing if the ball in not within smash range
-        if (_capsuleCollider2D.Distance(ballCircleCollider2D).distance > gm.smashRange)
-        {
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-        {
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-
-                smashWithDirection(Vector2.left + Vector2.up);
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-
-                smashWithDirection(Vector2.left + Vector2.down);
-            }
-            else
-            {
-                smashWithDirection(Vector2.left);
-            }
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            smashWithDirection(Vector2.up + new Vector2(-0.5f, 0f));
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            smashWithDirection(Vector2.down + new Vector2(-0.3f ,0f));
-        }
-        else
-        {
-            smashWithDirection(Vector2.down + new Vector2(-0.5f, 0f));
-        }
-    }
-
-    private void smashWithDirection(Vector2 direciton)
-    {
-        ballRigidbody2D.velocity = Vector2.zero;
-        ballRigidbody2D.angularVelocity = gm.spinForce;
-        ballRigidbody2D.AddForce(direciton * gm.smashForce, ForceMode2D.Impulse);
-        StartCoroutine(IgnoreCollisionWith(ballCircleCollider2D));
-    }
-
-    private IEnumerator IgnoreCollisionWith(Collider2D collider2D)
-    {
-        Physics2D.IgnoreCollision(_capsuleCollider2D, ballCircleCollider2D, true);
-        yield return new WaitForSeconds(0.1f);
-        Physics2D.IgnoreCollision(_capsuleCollider2D, ballCircleCollider2D, false);
     }
 
     // Can only move if the desired position is not within the net range
@@ -159,13 +93,13 @@ public class Pinky : MonoBehaviour
     // Check if the desired position is within the net range
     private bool IsInNetRange(Vector3 desiredPosition)
     {
-        return desiredPosition.x > netHorizontalRange.x && desiredPosition.x < netHorizontalRange.y;
+        return desiredPosition.x > gm.netHorizontalRange.x && desiredPosition.x < gm.netHorizontalRange.y;
     }
 
     // Jump if is on the ground
     private void ConditionalJump()
     {
-        if (IsOnTheGround()) // Can only jump when on the ground
+        if (IsOnTheGround()) // Can only jump while on the ground
         {
             _rigidbody2D.AddForce(new Vector2(0, gm.jumpForce), ForceMode2D.Impulse);
         }
@@ -175,7 +109,7 @@ public class Pinky : MonoBehaviour
     // Check if the object is on the ground
     private bool IsOnTheGround()
     {
-        return _capsuleCollider2D.IsTouching(groundCollider2D);
+        return _capsuleCollider2D.IsTouching(gm.groundCollider2D);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

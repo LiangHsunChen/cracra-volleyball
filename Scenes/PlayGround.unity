@@ -153,11 +153,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _setupManager: {fileID: 1055821200}
+  net: {fileID: 1052148952}
+  ball: {fileID: 1303299432}
+  player: {fileID: 597097804}
+  bot: {fileID: 1657486331}
+  ground: {fileID: 1879865277}
+  leftWall: {fileID: 2090937517}
+  rightWall: {fileID: 1657424395}
+  botRigidbody2D: {fileID: 0}
+  ballRigidbody2D: {fileID: 0}
+  playerCapsuleCollider2D: {fileID: 0}
+  ballCircleCollider2D: {fileID: 0}
+  groundCollider2D: {fileID: 0}
+  netCollider2D: {fileID: 0}
+  netHorizontalRange: {x: 0, y: 0}
+  netExtent: 0
+  netExtentY: 0
+  playerExtent: 0
+  desiredDropPointY: 0
+  netPos: {x: 0, y: 0, z: 0}
   movementSpeed: 7
   jumpForce: 135
-  smashRange: 0.25
+  smashRange: 0.35
   smashForce: 100
   spinForce: 1800
+  liftForce: 10
   cameraLeftEdge: {x: 0, y: 0, z: 0}
   cameraRightEdge: {x: 0, y: 0, z: 0}
 --- !u!4 &239776781
@@ -270,6 +290,7 @@ GameObject:
   - component: {fileID: 597097809}
   - component: {fileID: 597097808}
   - component: {fileID: 597097810}
+  - component: {fileID: 597097813}
   - component: {fileID: 597097807}
   - component: {fileID: 597097806}
   - component: {fileID: 597097812}
@@ -401,9 +422,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 597097807}
-  net: {fileID: 1052148952}
-  ball: {fileID: 1303299432}
-  ground: {fileID: 1879865277}
 --- !u!70 &597097812
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -420,6 +438,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0029255867, y: -0.02738483}
   m_Size: {x: 0.1128664, y: 0.2159986}
   m_Direction: 0
+--- !u!114 &597097813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597097804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec61aa94157647b09c4da3aaecf7477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gm: {fileID: 239776780}
 --- !u!1 &942756159
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,8 +671,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3339012, y: 0.01409774}
-  m_Size: {x: 6.167802, y: 0.72}
+  m_Offset: {x: -0.027072703, y: 0.014097738}
+  m_Size: {x: 5.554144, y: 0.7199999}
   m_Direction: 1
 --- !u!1 &1055821199
 GameObject:
@@ -672,10 +703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddcd6ccc90ca451c988999d7031253b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ball: {fileID: 1303299432}
-  player: {fileID: 597097804}
-  leftWall: {fileID: 2090937517}
-  rightWall: {fileID: 1657424395}
 --- !u!4 &1055821201
 Transform:
   m_ObjectHideFlags: 0
@@ -808,7 +835,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1303299432}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.78409, y: 3.315455, z: 0}
+  m_LocalPosition: {x: 4.78409, y: 3.3154552, z: 0}
   m_LocalScale: {x: 4.5, y: 4.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -980,6 +1007,7 @@ GameObject:
   - component: {fileID: 1657486337}
   - component: {fileID: 1657486336}
   - component: {fileID: 1657486338}
+  - component: {fileID: 1657486339}
   - component: {fileID: 1657486334}
   - component: {fileID: 1657486333}
   - component: {fileID: 1657486332}
@@ -1003,8 +1031,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0054662824, y: -0.002209854}
-  m_Size: {x: 0.18, y: 0.26634857}
+  m_Offset: {x: 0.02, y: -0.01}
+  m_Size: {x: 0.1128664, y: 0.2159986}
   m_Direction: 0
 --- !u!50 &1657486333
 Rigidbody2D:
@@ -1127,9 +1155,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1657486334}
-  net: {fileID: 1052148952}
-  ball: {fileID: 1303299432}
-  ground: {fileID: 1879865277}
+--- !u!114 &1657486339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657486331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec61aa94157647b09c4da3aaecf7477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gm: {fileID: 239776780}
 --- !u!1 &1879865277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,7 +1181,7 @@ GameObject:
   - component: {fileID: 1879865281}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1228,7 +1266,7 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.01}
   m_EdgeRadius: 0
   m_Points:
   - {x: -9.922554, y: 0.4840405}
