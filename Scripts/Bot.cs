@@ -29,6 +29,7 @@ public class Bot : MonoBehaviour
     private Smash smash;
 
     private bool isFollowingBall = false;
+    private bool isJumpInCD = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,7 @@ public class Bot : MonoBehaviour
     {
         // Animator setting
         animator.SetFloat("Horizontal", horizontalInput);
+        
     }
 
     private void FixedUpdate()
@@ -72,13 +74,26 @@ public class Bot : MonoBehaviour
         {
             ConditionalJump();
             isFollowingBall = true;
+            StartCoroutine(InJumpCD());
+        }
+
+        if (_capsuleCollider2D.IsTouching(gm.groundCollider2D))
+        {
+            isFollowingBall = false;
         }
 
         //if (BallIsNearBy())
         //{
         //    ConditionalJump();
         //}
-        
+
+    }
+
+    private IEnumerator InJumpCD()
+    {
+        isJumpInCD = true;
+        yield return new WaitForSeconds(0.5f);
+        isJumpInCD = false;
     }
 
     // Determine if the ball is above the character
@@ -195,7 +210,7 @@ public class Bot : MonoBehaviour
     }
 
 
-    private bool canSmash()
+    private bool CanSmash()
     {
         float netHeight = gm.netPos.y + gm.netExtentY;
         float botPosY = _rigidbody2D.position.y;
@@ -210,15 +225,10 @@ public class Bot : MonoBehaviour
         {
             _rigidbody2D.velocity = Vector2.zero;
 
-            if (canSmash())
+            if (CanSmash())
             {
                 smash.SmashBall("Bot");
             }
-        }
-
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isFollowingBall = false;
         }
     }
 }

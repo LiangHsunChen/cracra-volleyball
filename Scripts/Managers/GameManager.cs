@@ -82,5 +82,14 @@ public class GameManager : MonoBehaviour
         {
             _setupManager.Reset();            
         }
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (ballCircleCollider2D.IsTouching(groundCollider2D))
+        {
+            _setupManager.Reset();
+        }
     }
 }
