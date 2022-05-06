@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public float movementSpeed = 7f;
     public float jumpForce = 135f;
-    public float smashRange = 0.25f;
+    public float smashRange = 0.5f;
     public float smashForce = 100f;
     public float spinForce = 1800f;
 
