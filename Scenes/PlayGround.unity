@@ -173,9 +173,9 @@ MonoBehaviour:
   desiredDropPointY: 0
   netPos: {x: 0, y: 0, z: 0}
   movementSpeed: 7
-  jumpForce: 135
+  jumpForce: 120
   smashRange: 0.35
-  smashForce: 100
+  smashForce: 150
   spinForce: 1800
   liftForce: 10
   cameraLeftEdge: {x: 0, y: 0, z: 0}
@@ -473,7 +473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc23124cf6fc437d97570f909249eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gm: {fileID: 239776780}
 --- !u!1 &942756159
 GameObject:
   m_ObjectHideFlags: 0
