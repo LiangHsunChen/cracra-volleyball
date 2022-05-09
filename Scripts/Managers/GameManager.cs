@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     public Vector3 cameraLeftEdge;
     public Vector3 cameraRightEdge;
 
+    private bool resetOn = true;
+
     private void Awake()
     {
         // Rigidbody2D
@@ -82,16 +84,25 @@ public class GameManager : MonoBehaviour
         // Reset button for testing
         if (Input.GetKeyDown(KeyCode.R))
         {
-            _setupManager.Reset();            
+            _setupManager.Reset();
+        }
+
+        // Toggle reset when ball drops on the ground
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            resetOn = !resetOn;
         }
 
     }
 
     private void FixedUpdate()
     {
-        if (ballCircleCollider2D.IsTouching(groundCollider2D))
+        if (resetOn)
         {
-            _setupManager.Reset();
+            if (ballCircleCollider2D.IsTouching(groundCollider2D))
+            {
+                _setupManager.Reset();
+            }
         }
     }
 }
