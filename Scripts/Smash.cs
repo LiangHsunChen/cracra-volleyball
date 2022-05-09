@@ -83,10 +83,6 @@ public class Smash : MonoBehaviour
         float netLeftPoint = gm.netPos.x - gm.netExtent;
         float wallToNetDis = Mathf.Abs(gm.leftWall.transform.position.x - gm.netPos.x);
 
-        Debug.Log("bot = " + botposX + botPosY);
-        Debug.Log("net = " + netHeight);
-        Debug.Log(wallToNetDis);
-
         if (botPosY > netHeight) // Bot higher than net
         {
             Vector2 direction = new(0, 0);
