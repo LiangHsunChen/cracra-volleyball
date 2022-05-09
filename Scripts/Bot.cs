@@ -161,11 +161,11 @@ public class Bot : MonoBehaviour
         // Move depends on the target location
         if (charPosition.x < targetPoint.x)
         {
-            resultMovement = RIGHT;
+            resultMovement = gm.RIGHT;
         }
         else if (charPosition.x > targetPoint.x)
         {
-            resultMovement = LEFT;
+            resultMovement = gm.LEFT;
         }
 
         // Get bot's position after movement

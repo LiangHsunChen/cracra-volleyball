@@ -25,10 +25,7 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gm.ballCircleCollider2D.IsTouching(gm.groundCollider2D))
-        {
 
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
