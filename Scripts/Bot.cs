@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class Bot : MonoBehaviour
 {
-    private static readonly float LEFT = -1f;
-    private static readonly float RIGHT = 1f;
-
     private GameManager gm;
 
     public Animator animator;

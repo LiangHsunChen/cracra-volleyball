@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public readonly float LEFT = -1f;
+    public readonly float RIGHT = 1f;
 
     // Game objects
     public SetupManager _setupManager;
