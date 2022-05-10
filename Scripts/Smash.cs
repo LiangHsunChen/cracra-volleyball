@@ -76,7 +76,7 @@ public class Smash : MonoBehaviour
         }
         else
         {
-            SmashWithDirection(LDD);
+            SmashWithDirection(Vector2.left);
         }
     }
 
