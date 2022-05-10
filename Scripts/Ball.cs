@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public GameObject netExtent;
+
     private GameManager gm;
     private Rigidbody2D _rigidbody2D;
+    private CircleCollider2D _collider2D;
 
     public bool hasCollided;
 
@@ -20,6 +23,8 @@ public class Ball : MonoBehaviour
     {
         gm = GameManager.Instance;
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _collider2D = GetComponent<CircleCollider2D>();
+        Physics2D.IgnoreCollision(_collider2D, netExtent.GetComponent<BoxCollider2D>(), true);
     }
 
     // Update is called once per frame
