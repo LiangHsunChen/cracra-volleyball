@@ -35,12 +35,14 @@ public class GameManager : MonoBehaviour
     public float playerExtent;
     public float desiredDropPointY;
     public Vector3 netPos;
+    private float leftWallWidth;
+    private float rightWallWidth;
 
     // Game values
     public float movementSpeed = 7f;
     public float jumpForce = 120f;
-    public float smashRange = 0.5f;
-    public float smashForce = 150f;
+    public float smashRange = 0.35f;
+    public float smashForce = 140f;
     public float spinForce = 1800f;
     public float liftForce = 10f;
 
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour
         playerExtent = playerCapsuleCollider2D.size.x / 2;
         netHorizontalRange = new(-netExtent - playerExtent, netExtent + playerExtent);
         netPos = net.transform.position;
+        leftWallWidth = leftWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+        rightWallWidth = rightWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
 
         desiredDropPointY = ground.transform.position.y + (ground.GetComponent<SpriteRenderer>().bounds.size.y / 2) +
             (ball.GetComponent<SpriteRenderer>().bounds.size.y / 2);
@@ -91,6 +95,12 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             resetOn = !resetOn;
+        }
+
+        if (cameraRightEdge != cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight / 2, cam.transform.position.z)))
+        {
+            cameraRightEdge = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight / 2, cam.transform.position.z));
+            _setupManager.WallsSetup();
         }
 
     }

@@ -62,12 +62,10 @@ public class SetupManager : MonoBehaviour
     }
 
     // Setup walls' position
-    void WallsSetup()
+    public void WallsSetup()
     {
         leftWallPosition = gm.leftWall.transform.position;
         rightWallPosition = gm.rightWall.transform.position;
-        leftWallWidth = gm.leftWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
-        rightWallWidth = gm.rightWall.GetComponent<SpriteRenderer>().bounds.size.x / 2;
         gm.leftWall.transform.position = new Vector3(gm.cameraLeftEdge.x - leftWallWidth, gm.cameraLeftEdge.y, leftWallPosition.z);
         gm.rightWall.transform.position = new Vector3(gm.cameraRightEdge.x + rightWallWidth, gm.cameraRightEdge.y, rightWallPosition.z);
     }
