@@ -126,7 +126,7 @@ public class Smash : MonoBehaviour
                         break;
                 }
             }
-            else if (Mathf.Abs(botposX - netLeftPoint) < gm.playerExtent + 1f) // Bot is very close to net
+            else if (Mathf.Abs(botposX - netLeftPoint) < gm.playerExtent + 0.75f) // Bot is very close to net
             {
                 direction = RDD;
             }
