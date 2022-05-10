@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
     public float playerExtent;
     public float desiredDropPointY;
     public Vector3 netPos;
-    private float leftWallWidth;
-    private float rightWallWidth;
+    public float leftWallWidth;
+    public float rightWallWidth;
 
     // Game values
     public float movementSpeed = 7f;

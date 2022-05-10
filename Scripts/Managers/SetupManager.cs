@@ -14,8 +14,6 @@ public class SetupManager : MonoBehaviour
     private Vector3 rightWallPosition;
 
     private float ballExtent;
-    private float leftWallWidth;
-    private float rightWallWidth;
 
     private Rigidbody2D ballRigidbody2D;
 
@@ -66,7 +64,7 @@ public class SetupManager : MonoBehaviour
     {
         leftWallPosition = gm.leftWall.transform.position;
         rightWallPosition = gm.rightWall.transform.position;
-        gm.leftWall.transform.position = new Vector3(gm.cameraLeftEdge.x - leftWallWidth, gm.cameraLeftEdge.y, leftWallPosition.z);
-        gm.rightWall.transform.position = new Vector3(gm.cameraRightEdge.x + rightWallWidth, gm.cameraRightEdge.y, rightWallPosition.z);
+        gm.leftWall.transform.position = new Vector3(gm.cameraLeftEdge.x - gm.leftWallWidth, gm.cameraLeftEdge.y, leftWallPosition.z);
+        gm.rightWall.transform.position = new Vector3(gm.cameraRightEdge.x + gm.rightWallWidth, gm.cameraRightEdge.y, rightWallPosition.z);
     }
 }
