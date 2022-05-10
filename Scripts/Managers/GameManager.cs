@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
 
         if (cameraRightEdge != cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight / 2, cam.transform.position.z)))
         {
+            cameraLeftEdge = cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight / 2, cam.transform.position.z));
             cameraRightEdge = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight / 2, cam.transform.position.z));
             _setupManager.WallsSetup();
         }
