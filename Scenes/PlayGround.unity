@@ -175,7 +175,7 @@ MonoBehaviour:
   movementSpeed: 7
   jumpForce: 120
   smashRange: 0.35
-  smashForce: 150
+  smashForce: 140
   spinForce: 1800
   liftForce: 10
   cameraLeftEdge: {x: 0, y: 0, z: 0}
