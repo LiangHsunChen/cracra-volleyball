@@ -1105,6 +1105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54adae73a0ea489980a21662bf0a950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  netExtent: {fileID: 99864785}
   hasCollided: 1
 --- !u!1 &1401214056
 GameObject:
