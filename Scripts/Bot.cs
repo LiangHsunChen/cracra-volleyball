@@ -108,7 +108,7 @@ public class Bot : MonoBehaviour
 
     private bool BallIsNearBy()
     {
-        return _capsuleCollider2D.Distance(gm.ballCircleCollider2D).distance < 1f;
+        return _capsuleCollider2D.Distance(gm.ballCircleCollider2D).distance < 0.35f;
     }
 
     // Check if the ball's drop point needs recalculate
@@ -226,6 +226,19 @@ public class Bot : MonoBehaviour
             {
                 smash.SmashBall("Bot");
             }
+            else
+            {
+                StartCoroutine(WaitToSmash());
+            }
+        }
+    }
+
+    private IEnumerator WaitToSmash()
+    {
+        yield return new WaitForSeconds(0.25f);
+        if (BallIsNearBy())
+        {
+            smash.BotSmashBalLUp();
         }
     }
 }

@@ -26,9 +26,14 @@ public class Smash : MonoBehaviour
         _collider2D = GetComponent<Collider2D>();
     }
 
+    public void BotSmashBalLUp()
+    {
+        SmashWithDirection(RU);
+    }
+
     public void SmashBall(string character)
     {
-        // Do nothing if the ball in not within smash range
+        // Do nothing if the ball is not within smash range
         if (_collider2D.Distance(gm.ballCircleCollider2D).distance > gm.smashRange)
         {
             return;
@@ -50,28 +55,28 @@ public class Smash : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.UpArrow)) // < ^
             {
-                smashWithDirection(LU);
+                SmashWithDirection(LU);
             }
             else if (Input.GetKey(KeyCode.DownArrow)) // < v
             {
-                smashWithDirection(LD);
+                SmashWithDirection(LD);
             }
             else
             {
-                smashWithDirection(Vector2.left);
+                SmashWithDirection(Vector2.left);
             }
         }
         else if (Input.GetKey(KeyCode.UpArrow))
         {
-            smashWithDirection(LUU);
+            SmashWithDirection(LUU);
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            smashWithDirection(Vector2.down + new Vector2(-0.3f, 0f));
+            SmashWithDirection(Vector2.down + new Vector2(-0.3f, 0f));
         }
         else
         {
-            smashWithDirection(LDD);
+            SmashWithDirection(LDD);
         }
     }
 
@@ -138,16 +143,16 @@ public class Smash : MonoBehaviour
                         break;
                 }
             }
-            smashWithDirection(direction);
+            SmashWithDirection(direction);
         }
         else // Bot lower than net
         {
             Debug.Log(4);
-            smashWithDirection(RU);
+            SmashWithDirection(RU);
         }
     }
 
-    private void smashWithDirection(Vector2 direciton)
+    private void SmashWithDirection(Vector2 direciton)
     {
         gm.ballRigidbody2D.velocity = Vector2.zero;
         gm.ballRigidbody2D.angularVelocity = gm.spinForce;
